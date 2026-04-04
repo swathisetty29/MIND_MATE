@@ -1,0 +1,143 @@
+{
+  "users": [
+    {
+      "_id": "30fec5dd-39e4-4e43-a230-d892d06cda9f",
+      "name": "prakash",
+      "email": "prakash123@gmail.com",
+      "password": "$2a$10$Wtzhqs/GU3LGq85x.Kgb3.Pl3tIUnbJ5Z3sFF2c1ELfzvL6df0msi",
+      "anonymousUsername": "Prakash",
+      "createdAt": "2026-04-04T06:16:38.697Z",
+      "updatedAt": "2026-04-04T06:50:56.857Z"
+    }
+  ],
+  "chatMessages": [
+    {
+      "_id": "5a50a9a3-e042-4b3e-8f18-1fc3fd6feefd",
+      "userId": "30fec5dd-39e4-4e43-a230-d892d06cda9f",
+      "role": "user",
+      "content": "i am feeling depresses these days",
+      "sentiment": "positive",
+      "createdAt": "2026-04-04T06:19:16.781Z",
+      "updatedAt": "2026-04-04T06:19:16.781Z"
+    },
+    {
+      "_id": "36635793-92b8-4810-b9aa-d76049c4cc1a",
+      "userId": "30fec5dd-39e4-4e43-a230-d892d06cda9f",
+      "role": "assistant",
+      "content": "That sounds difficult. Small steps matter. Is there one thing that might help you feel a bit calmer today?",
+      "sentiment": "neutral",
+      "createdAt": "2026-04-04T06:19:16.790Z",
+      "updatedAt": "2026-04-04T06:19:16.790Z"
+    },
+    {
+      "_id": "4626cbca-d49a-4490-879b-eb515ece3eb2",
+      "userId": "30fec5dd-39e4-4e43-a230-d892d06cda9f",
+      "role": "user",
+      "content": "no i am not getting why am i getting stressed much",
+      "sentiment": "negative",
+      "createdAt": "2026-04-04T06:20:17.059Z",
+      "updatedAt": "2026-04-04T06:20:17.059Z"
+    },
+    {
+      "_id": "64f53750-742c-4247-a9fa-c29963d24b9c",
+      "userId": "30fec5dd-39e4-4e43-a230-d892d06cda9f",
+      "role": "assistant",
+      "content": "That sounds difficult. Small steps matter. Is there one thing that might help you feel a bit calmer today?",
+      "sentiment": "neutral",
+      "createdAt": "2026-04-04T06:20:17.067Z",
+      "updatedAt": "2026-04-04T06:20:17.067Z"
+    },
+    {
+      "_id": "ce8acfe8-77ab-4d8e-875d-19273d4cca8e",
+      "userId": "30fec5dd-39e4-4e43-a230-d892d06cda9f",
+      "role": "user",
+      "content": "you should say that naa",
+      "sentiment": "neutral",
+      "createdAt": "2026-04-04T06:20:34.952Z",
+      "updatedAt": "2026-04-04T06:20:34.952Z"
+    },
+    {
+      "_id": "71133203-8472-41b2-a6b8-f0c3250f53fa",
+      "userId": "30fec5dd-39e4-4e43-a230-d892d06cda9f",
+      "role": "assistant",
+      "content": "Thank you for sharing that. It takes courage to open up. How are you feeling right now?",
+      "sentiment": "neutral",
+      "createdAt": "2026-04-04T06:20:34.962Z",
+      "updatedAt": "2026-04-04T06:20:34.962Z"
+    },
+    {
+      "_id": "340e995a-e609-422d-93d5-4d33f513e24c",
+      "userId": "30fec5dd-39e4-4e43-a230-d892d06cda9f",
+      "role": "user",
+      "content": "i am happy today",
+      "sentiment": "positive",
+      "createdAt": "2026-04-04T06:50:13.278Z",
+      "updatedAt": "2026-04-04T06:50:13.278Z"
+    },
+    {
+      "_id": "ae851c8e-4a37-4597-85c5-65a5808935c6",
+      "userId": "30fec5dd-39e4-4e43-a230-d892d06cda9f",
+      "role": "assistant",
+      "content": "Thank you for being honest about that. We can slow it down together and focus on what feels most important right now. Do you want to talk it through a little more, or would it help if we focused on one next step?",
+      "sentiment": "neutral",
+      "createdAt": "2026-04-04T06:50:13.292Z",
+      "updatedAt": "2026-04-04T06:50:13.292Z"
+    },
+    {
+      "_id": "6b450fc9-0694-4f55-b20c-c4eaeeab0a61",
+      "userId": "30fec5dd-39e4-4e43-a230-d892d06cda9f",
+      "role": "user",
+      "content": "i am happy",
+      "sentiment": "positive",
+      "createdAt": "2026-04-04T06:52:49.757Z",
+      "updatedAt": "2026-04-04T06:52:49.757Z"
+    },
+    {
+      "_id": "5865d166-52c7-4b48-bbe4-6dcde727b0cf",
+      "userId": "30fec5dd-39e4-4e43-a230-d892d06cda9f",
+      "role": "assistant",
+      "content": "Thank you for being honest about that. We can slow it down together and focus on what feels most important right now. Do you want to talk it through a little more, or would it help if we focused on one next step?",
+      "sentiment": "neutral",
+      "createdAt": "2026-04-04T06:52:49.775Z",
+      "updatedAt": "2026-04-04T06:52:49.775Z"
+    },
+    {
+      "_id": "23c76908-2071-4985-a3a1-0fa04ef068fd",
+      "userId": "30fec5dd-39e4-4e43-a230-d892d06cda9f",
+      "role": "user",
+      "content": "hi",
+      "sentiment": "neutral",
+      "createdAt": "2026-04-04T06:56:59.458Z",
+      "updatedAt": "2026-04-04T06:56:59.458Z"
+    },
+    {
+      "_id": "dc0ddca1-ed6d-4309-a43a-e428e49e83a9",
+      "userId": "30fec5dd-39e4-4e43-a230-d892d06cda9f",
+      "role": "assistant",
+      "content": "Thank you for being honest about that. We can slow it down together and focus on what feels most important right now. Do you want to talk it through a little more, or would it help if we focused on one next step?",
+      "sentiment": "neutral",
+      "createdAt": "2026-04-04T06:57:00.821Z",
+      "updatedAt": "2026-04-04T06:57:00.821Z"
+    }
+  ],
+  "sleepEntries": [
+    {
+      "_id": "a33ff254-d417-44e8-8bba-e3216928efae",
+      "userId": "30fec5dd-39e4-4e43-a230-d892d06cda9f",
+      "date": "2026-04-02T18:30:00.000Z",
+      "hours": 9,
+      "createdAt": "2026-04-04T06:17:34.548Z",
+      "updatedAt": "2026-04-04T06:17:34.548Z"
+    }
+  ],
+  "peerQueue": [
+    {
+      "_id": "50f9d67c-7443-452b-88aa-afc64b531a7d",
+      "userId": "30fec5dd-39e4-4e43-a230-d892d06cda9f",
+      "createdAt": "2026-04-04T06:18:18.486Z",
+      "updatedAt": "2026-04-04T06:18:18.486Z"
+    }
+  ],
+  "peerSessions": [],
+  "peerMessages": []
+}
