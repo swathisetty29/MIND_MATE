@@ -1,6 +1,5 @@
 import { Link, Navigate } from "react-router-dom";
-import BrandMark from "../components/BrandMark.jsx";
-import QuotePanel from "../components/QuotePanel.jsx";
+import { BRAND_IMAGE_URL } from "../components/BrandMark.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 
 export default function Home() {
@@ -13,28 +12,40 @@ export default function Home() {
   return (
     <div className="landing-shell">
       <section className="landing-hero container">
-        <div className="landing-copy">
-          <div className="brand-hero">
-            <div className="brand-badge">
-              <BrandMark size={96} />
-            </div>
-            <div>
-              <p className="eyebrow">Student Wellness Platform</p>
-              <h1>
-                <span className="brand-word-blue">Mind</span>
-                <span className="brand-word-green">Mate</span>
-              </h1>
+        <div className="landing-copy landing-copy-centered card">
+          <div className="hero-center-card">
+            <div className="hero-poster hero-poster-large">
+              <img
+                className="hero-image"
+                src={BRAND_IMAGE_URL}
+                alt="Haven: Your Mind Mate poster"
+              />
+              <div>
+                <p className="eyebrow">Your safe space to breathe</p>
+                <h1>
+                  <span className="brand-word-blue">Haven:</span>{" "}
+                  <span className="brand-word-green">Your Mind Mate</span>
+                </h1>
+              </div>
             </div>
           </div>
 
-          <p className="hero-text">
-            A softer digital space for students to pause, reflect, track wellness, and feel
-            supported through everyday emotional ups and downs.
-          </p>
+          <div className="hero-quote">
+            <p className="hero-text">
+              Everyone trains the body, but who&apos;s looking out for the person inside?
+              Consider this your safe space, no grades, no deadlines, just a place to
+              breathe.
+            </p>
+            <p className="hero-signoff">
+              Haven: Your Mind Mate.
+              <br />
+              Because your mind deserves a best friend, too.
+            </p>
+          </div>
 
           <div className="hero-actions">
             <Link to="/login" className="btn btn-primary" style={{ textDecoration: "none" }}>
-              Enter MindMate
+              Enter Haven
             </Link>
             <Link to="/register" className="btn btn-secondary" style={{ textDecoration: "none" }}>
               Create account
@@ -46,16 +57,6 @@ export default function Home() {
             <div className="feature-chip">Sleep tracker</div>
             <div className="feature-chip">Anonymous peer support</div>
           </div>
-        </div>
-
-        <div className="hero-visual card">
-          <div className="hero-visual-art">
-            <BrandMark size={220} />
-          </div>
-          <QuotePanel
-            quote="You do not have to fix everything today. You only need one honest breath, one kind thought, and one gentle next step."
-            author="MindMate opening note"
-          />
         </div>
       </section>
 

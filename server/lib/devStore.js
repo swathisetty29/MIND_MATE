@@ -84,6 +84,15 @@ export async function updateUser(userId, patch) {
   return user;
 }
 
+export async function updateUserByEmail(email, patch) {
+  const data = readData();
+  const user = data.users.find((item) => item.email === email.toLowerCase());
+  if (!user) return null;
+  Object.assign(user, patch, { updatedAt: new Date().toISOString() });
+  writeData(data);
+  return user;
+}
+
 export async function createChatMessage({ userId, role, content, sentiment }) {
   const data = readData();
   const message = {

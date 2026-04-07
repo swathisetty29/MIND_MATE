@@ -130,10 +130,7 @@ export default function Dashboard() {
         </Link>
       </div>
 
-      <QuotePanel
-        compact
-        quote="This snapshot is a gentle reflection, not a diagnosis. If distress keeps growing, reaching out to a counselor or doctor is a strong next step."
-      />
+      <QuotePanel compact highlight />
     </div>
   );
 }

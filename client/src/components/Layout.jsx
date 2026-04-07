@@ -1,7 +1,6 @@
 import { Link, NavLink, Outlet } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 import BrandMark from "./BrandMark.jsx";
-import QuotePanel from "./QuotePanel.jsx";
 
 export default function Layout() {
   const { user, logout } = useAuth();
@@ -14,8 +13,8 @@ export default function Layout() {
             <span className="brand-lockup">
               <BrandMark size={46} compact />
               <span className="brand-name">
-                <span className="brand-word-blue">Mind</span>
-                <span className="brand-word-green">Mate</span>
+                <span className="brand-word-blue">Haven:</span>{" "}
+                <span className="brand-word-green">Your Mind Mate</span>
               </span>
             </span>
           </Link>
@@ -44,15 +43,6 @@ export default function Layout() {
       <main style={{ flex: 1, paddingBottom: "2rem" }}>
         <Outlet />
       </main>
-      <footer className="app-footer">
-        <div className="container">
-          <QuotePanel
-            compact
-            quote="Healing is often quiet. Sometimes it is just resting more, speaking kinder, and beginning again tomorrow."
-            author="MindMate"
-          />
-        </div>
-      </footer>
     </div>
   );
 }

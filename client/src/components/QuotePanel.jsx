@@ -1,8 +1,11 @@
-export default function QuotePanel({ quote, author, compact = false }) {
+import { getDailyQuote } from "../data/dailyQuotes.js";
+
+export default function QuotePanel({ quote, compact = false, highlight = false }) {
+  const text = quote || getDailyQuote();
+
   return (
-    <div className={`quote-panel${compact ? " quote-panel-compact" : ""}`}>
-      <p>{quote}</p>
-      {author ? <span>{author}</span> : null}
+    <div className={`quote-panel${compact ? " quote-panel-compact" : ""}${highlight ? " quote-panel-highlight" : ""}`}>
+      <p>{text}</p>
     </div>
   );
 }

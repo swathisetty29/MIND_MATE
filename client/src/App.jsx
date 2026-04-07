@@ -3,6 +3,7 @@ import Layout from "./components/Layout.jsx";
 import { useAuth } from "./context/AuthContext.jsx";
 import Chatbot from "./pages/Chatbot.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
+import ForgotPassword from "./pages/ForgotPassword.jsx";
 import Home from "./pages/Home.jsx";
 import Login from "./pages/Login.jsx";
 import PeerChat from "./pages/PeerChat.jsx";
@@ -27,6 +28,7 @@ export default function App() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/register" element={<Register />} />
       <Route
         element={

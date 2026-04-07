@@ -9,6 +9,7 @@ import {
   findUserByEmail,
   findUserById,
   updateUser,
+  updateUserByEmail,
 } from "../lib/devStore.js";
 
 const router = Router();
@@ -77,6 +78,48 @@ router.post("/login", async (req, res) => {
   } catch (e) {
     console.error(e);
     res.status(500).json({ error: "Could not log in" });
+  }
+});
+
+router.post("/forgot-password", async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
+    if (!name || !email || !password) {
+      return res.status(400).json({ error: "Name, email, and new password are required" });
+    }
+    if (password.length < 6) {
+      return res.status(400).json({ error: "Password must be at least 6 characters" });
+    }
+
+    const normalizedEmail = email.toLowerCase();
+    const existing = isDevStore()
+      ? await findUserByEmail(normalizedEmail)
+      : await User.findOne({ email: normalizedEmail });
+
+    if (!existing) {
+      return res.status(404).json({ error: "No account found for this email" });
+    }
+    if (existing.name.trim().toLowerCase() !== name.trim().toLowerCase()) {
+      return res.status(401).json({ error: "Name and email do not match our records" });
+    }
+
+    const hash = await bcrypt.hash(password, 10);
+    const updated = isDevStore()
+      ? await updateUserByEmail(normalizedEmail, { password: hash })
+      : await User.findOneAndUpdate(
+          { email: normalizedEmail },
+          { $set: { password: hash } },
+          { new: true }
+        );
+
+    if (!updated) {
+      return res.status(500).json({ error: "Could not reset password" });
+    }
+
+    res.json({ ok: true, message: "Password updated successfully" });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: "Could not reset password" });
   }
 });
 

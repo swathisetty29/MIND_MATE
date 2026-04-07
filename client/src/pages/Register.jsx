@@ -40,18 +40,15 @@ export default function Register() {
           <div>
             <p className="eyebrow">Create account</p>
             <h1 className="auth-title">
-              <span className="brand-word-blue">Mind</span>
-              <span className="brand-word-green">Mate</span>
+              <span className="brand-word-blue">Haven:</span>{" "}
+              <span className="brand-word-green">Your Mind Mate</span>
             </h1>
           </div>
         </div>
         <p className="auth-lead">
           Build a space that feels lighter, steadier, and more human each time you return.
         </p>
-        <QuotePanel
-          quote="A better day can begin with one honest check-in. Small beginnings still count."
-          author="MindMate welcome note"
-        />
+        <QuotePanel highlight />
       </div>
 
       <div className="card auth-card">
@@ -93,10 +90,6 @@ export default function Register() {
         <p style={{ marginTop: "1.25rem", textAlign: "center" }}>
           Already have an account? <Link to="/login">Log in</Link>
         </p>
-        <QuotePanel
-          compact
-          quote="MindMate supports reflection and peer wellness, but it is not a replacement for professional mental health services."
-        />
       </div>
     </div>
   );

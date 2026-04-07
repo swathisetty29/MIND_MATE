@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { api } from "../api.js";
 import BrandMark from "../components/BrandMark.jsx";
 import QuotePanel from "../components/QuotePanel.jsx";
-import { useAuth } from "../context/AuthContext.jsx";
 
 function EyeIcon({ open }) {
   if (open) {
@@ -54,30 +53,36 @@ function EyeIcon({ open }) {
   );
 }
 
-export default function Login() {
-  const { login, user } = useAuth();
+export default function ForgotPassword() {
   const navigate = useNavigate();
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState("");
-
-  useEffect(() => {
-    if (user) navigate("/dashboard", { replace: true });
-  }, [user, navigate]);
+  const [success, setSuccess] = useState("");
 
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
+    setSuccess("");
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
     try {
-      const data = await api("/login", {
+      const data = await api("/forgot-password", {
         method: "POST",
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ name, email, password }),
       });
-      login(data.token, data.user);
-      navigate("/dashboard", { replace: true });
+      setSuccess(data.message || "Password updated successfully");
+      setTimeout(() => navigate("/login"), 1200);
     } catch (err) {
-      setError(err.message || "Login failed");
+      setError(err.message || "Could not reset password");
     }
   }
 
@@ -87,7 +92,7 @@ export default function Login() {
         <div className="auth-brand">
           <BrandMark size={96} />
           <div>
-            <p className="eyebrow">Welcome back</p>
+            <p className="eyebrow">Reset access</p>
             <h1 className="auth-title">
               <span className="brand-word-blue">Haven:</span>{" "}
               <span className="brand-word-green">Your Mind Mate</span>
@@ -95,21 +100,34 @@ export default function Login() {
           </div>
         </div>
         <p className="auth-lead">
-          Step back into your calm corner for reflection, wellness, and gentle support.
+          Confirm your identity with your name and email, then choose a new password.
         </p>
         <QuotePanel highlight />
       </div>
 
       <div className="card auth-card">
-        <p className="eyebrow">Sign in</p>
-        <h2 style={{ marginTop: 0, color: "var(--ink)" }}>Your calm space is waiting</h2>
+        <p className="eyebrow">Forgot password</p>
+        <h2 style={{ marginTop: 0, color: "var(--ink)" }}>Verify and set a new password</h2>
         <form onSubmit={handleSubmit}>
           <div style={{ marginBottom: "1rem" }}>
-            <label className="label" htmlFor="email">
+            <label className="label" htmlFor="reset-name">
+              Full name
+            </label>
+            <input
+              id="reset-name"
+              className="input"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+              autoComplete="name"
+            />
+          </div>
+          <div style={{ marginBottom: "1rem" }}>
+            <label className="label" htmlFor="reset-email">
               Email
             </label>
             <input
-              id="email"
+              id="reset-email"
               className="input"
               type="email"
               value={email}
@@ -119,18 +137,19 @@ export default function Login() {
             />
           </div>
           <div style={{ marginBottom: "1rem" }}>
-            <label className="label" htmlFor="password">
-              Password
+            <label className="label" htmlFor="reset-password">
+              New password
             </label>
             <div className="password-field">
               <input
-                id="password"
+                id="reset-password"
                 className="input password-input"
                 type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                autoComplete="current-password"
+                minLength={6}
+                autoComplete="new-password"
               />
               <button
                 type="button"
@@ -143,16 +162,40 @@ export default function Login() {
               </button>
             </div>
           </div>
+          <div style={{ marginBottom: "1rem" }}>
+            <label className="label" htmlFor="reset-confirm-password">
+              Confirm new password
+            </label>
+            <div className="password-field">
+              <input
+                id="reset-confirm-password"
+                className="input password-input"
+                type={showConfirmPassword ? "text" : "password"}
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+                minLength={6}
+                autoComplete="new-password"
+              />
+              <button
+                type="button"
+                className="password-toggle"
+                onClick={() => setShowConfirmPassword((prev) => !prev)}
+                aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+                title={showConfirmPassword ? "Hide password" : "Show password"}
+              >
+                <EyeIcon open={showConfirmPassword} />
+              </button>
+            </div>
+          </div>
           {error && <p className="error-text">{error}</p>}
-          <p style={{ margin: "0 0 0.75rem", textAlign: "right" }}>
-            <Link to="/forgot-password">Forgot password?</Link>
-          </p>
+          {success ? <p style={{ color: "var(--good)", fontWeight: 700 }}>{success}</p> : null}
           <button type="submit" className="btn btn-primary" style={{ width: "100%", marginTop: "0.5rem" }}>
-            Log in
+            Update password
           </button>
         </form>
         <p style={{ marginTop: "1.25rem", textAlign: "center" }}>
-          No account? <Link to="/register">Register</Link>
+          Back to <Link to="/login">Log in</Link>
         </p>
       </div>
     </div>

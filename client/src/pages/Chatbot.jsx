@@ -1,11 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import { api } from "../api.js";
+import QuotePanel from "../components/QuotePanel.jsx";
+import { getDailyChatComfortQuote } from "../data/dailyQuotes.js";
 
 export default function Chatbot() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [loadingHistory, setLoadingHistory] = useState(true);
+  const [replySource, setReplySource] = useState("");
+  const [modelError, setModelError] = useState("");
   const bottomRef = useRef(null);
 
   useEffect(() => {
@@ -28,17 +32,23 @@ export default function Chatbot() {
   }, [messages]);
 
   async function send(e) {
-    e.preventDefault();
+    e?.preventDefault();
     const text = input.trim();
     if (!text || loading) return;
+
     setInput("");
     setMessages((prev) => [...prev, { role: "user", content: text }]);
     setLoading(true);
+    setModelError("");
+
     try {
       const data = await api("/chat", {
         method: "POST",
         body: JSON.stringify({ message: text }),
       });
+      setReplySource(data.source || "");
+      setModelError(data.modelError || "");
+
       setMessages((prev) => [
         ...prev,
         {
@@ -48,13 +58,22 @@ export default function Chatbot() {
           sentiment: data.sentiment,
         },
       ]);
-    } catch (err) {
+    } catch (_err) {
       setMessages((prev) => [
         ...prev,
         { role: "assistant", content: "Something went wrong. Please try again." },
       ]);
+      setReplySource("");
+      setModelError("Could not reach the chat API.");
     } finally {
       setLoading(false);
+    }
+  }
+
+  function handleComposerKeyDown(e) {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      send();
     }
   }
 
@@ -62,8 +81,14 @@ export default function Chatbot() {
     <div className="container" style={{ paddingTop: "1.5rem", maxWidth: 640 }}>
       <h1 style={{ marginTop: 0 }}>AI support chat</h1>
       <p style={{ color: "var(--muted)" }}>
-        Chat in a calm space. The assistant is supportive only — not a therapist.
+        Chat in a calm space. Press Enter to send and Shift+Enter to start a new line.
       </p>
+      {replySource ? (
+        <p style={{ color: "var(--muted)", fontSize: "0.85rem", marginTop: "-0.35rem" }}>
+          Reply source: <strong>{replySource}</strong>
+          {modelError ? ` - ${modelError}` : ""}
+        </p>
+      ) : null}
 
       <div
         className="card"
@@ -77,9 +102,9 @@ export default function Chatbot() {
           marginBottom: "1rem",
         }}
       >
-        {loadingHistory && <p style={{ color: "var(--muted)" }}>Loading history…</p>}
+        {loadingHistory && <p style={{ color: "var(--muted)" }}>Loading history...</p>}
         {!loadingHistory && messages.length === 0 && (
-          <p style={{ color: "var(--muted)" }}>Say hello — what’s on your mind today?</p>
+          <p style={{ color: "var(--muted)" }}>Say hello. What's on your mind today?</p>
         )}
         {messages.map((m, i) => (
           <div
@@ -94,9 +119,9 @@ export default function Chatbot() {
             }}
           >
             <div style={{ fontSize: "0.75rem", color: "var(--muted)", marginBottom: "0.25rem" }}>
-              {m.role === "user" ? "You" : "MindMate"}
+              {m.role === "user" ? "You" : "Haven"}
               {m.sentiment && m.role === "user" && (
-                <span style={{ marginLeft: "0.5rem" }}>· mood: {m.sentiment}</span>
+                <span style={{ marginLeft: "0.5rem" }}>mood: {m.sentiment}</span>
               )}
             </div>
             <div style={{ whiteSpace: "pre-wrap" }}>{m.content}</div>
@@ -104,7 +129,7 @@ export default function Chatbot() {
         ))}
         {loading && (
           <p style={{ color: "var(--muted)", fontSize: "0.9rem" }}>
-            Thinking…
+            Thinking...
           </p>
         )}
         <div ref={bottomRef} />
@@ -115,9 +140,10 @@ export default function Chatbot() {
           className="input"
           rows={2}
           style={{ flex: "1 1 200px", resize: "vertical" }}
-          placeholder="Type a message…"
+          placeholder="Type a message..."
           value={input}
           onChange={(e) => setInput(e.target.value)}
+          onKeyDown={handleComposerKeyDown}
           disabled={loading}
         />
         <button type="submit" className="btn btn-primary" disabled={loading}>
@@ -125,9 +151,7 @@ export default function Chatbot() {
         </button>
       </form>
 
-      <div className="disclaimer">
-        Not professional therapy. If you are in danger, contact emergency services. U.S.: call or text <strong>988</strong> for crisis support.
-      </div>
+      <QuotePanel quote={getDailyChatComfortQuote()} highlight />
     </div>
   );
 }

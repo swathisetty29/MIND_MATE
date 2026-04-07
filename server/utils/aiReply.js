@@ -28,10 +28,10 @@ function suggestNextStep(message, sentiment) {
     return "If you can, aim for one restful thing next, even if it is just water, a short break, or getting into bed a little earlier.";
   }
   if (lower.includes("exam") || lower.includes("study") || lower.includes("assignment")) {
-    return "Sometimes it helps to shrink the pressure into one tiny next step, like 10 focused minutes on just one task.";
+    return "Try shrinking the pressure into one tiny next step, like 10 focused minutes on only one task.";
   }
   if (lower.includes("anxious") || lower.includes("panic") || lower.includes("worried")) {
-    return "A slow breath, unclenching your shoulders, and naming what is happening right now can sometimes make the moment feel a little safer.";
+    return "A slow breath, unclenching your shoulders, and naming what is happening right now can make the moment feel a little safer.";
   }
   if (sentiment === "negative") {
     return "You do not need to solve everything at once. One gentle next step is enough for now.";
@@ -71,7 +71,7 @@ function buildFallbackReply(userMessage, sentiment) {
 function buildInput(history) {
   return history.map((entry) => ({
     role: entry.role,
-    content: entry.content,
+    content: [{ type: "input_text", text: entry.content }],
   }));
 }
 
@@ -94,6 +94,21 @@ function getOutputText(data) {
   return "";
 }
 
+function systemPrompt() {
+  return [
+    "You are Haven, a warm, emotionally intelligent support companion for students.",
+    "Sound natural, kind, and human, not robotic, preachy, or repetitive.",
+    "Respond to the user's exact situation instead of giving generic motivational speeches.",
+    "Usually keep replies to 4-8 sentences unless the user asks for more.",
+    "Start by acknowledging specifics from the user's message.",
+    "Ask at most one natural follow-up question unless the user asks for more depth.",
+    "When helpful, offer one practical next step that feels small and realistic.",
+    "Do not diagnose, do not claim to be a therapist, and do not invent personal experiences.",
+    "If the user sounds very distressed, be extra gentle, grounding, and clear.",
+    "Use plain language that a stressed student can understand quickly.",
+  ].join(" ");
+}
+
 export async function getOpenAIReply({ userMessage, sentiment = "neutral", history = [] }) {
   const key = process.env.OPENAI_API_KEY;
   if (!key) {
@@ -102,7 +117,9 @@ export async function getOpenAIReply({ userMessage, sentiment = "neutral", histo
 
   const trimmedHistory = history
     .filter((entry) => entry?.role === "user" || entry?.role === "assistant")
-    .slice(-16);
+    .slice(-14);
+
+  const model = process.env.OPENAI_MODEL || "gpt-4o-mini";
 
   try {
     const res = await fetch("https://api.openai.com/v1/responses", {
@@ -112,23 +129,16 @@ export async function getOpenAIReply({ userMessage, sentiment = "neutral", histo
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "gpt-4o-mini",
+        model,
         input: [
           {
             role: "system",
-            content:
-              "You are MindMate, a warm, emotionally intelligent, highly conversational support companion for students. " +
-              "Respond like a thoughtful chat partner, not a scripted self-help bot. " +
-              "Pay close attention to the user's exact words and the conversation so far. " +
-              "Acknowledge specifics, ask natural follow-up questions, and keep the conversation flowing. " +
-              "Do not sound repetitive, generic, preachy, or overly formal. " +
-              "Do not diagnose or claim to be a therapist. " +
-              "When appropriate, offer one grounded practical suggestion, but do not force advice into every turn.",
+            content: [{ type: "input_text", text: systemPrompt() }],
           },
           ...buildInput(trimmedHistory),
         ],
-        temperature: 0.95,
-        max_output_tokens: 260,
+        temperature: 0.8,
+        max_output_tokens: 320,
       }),
     });
 
